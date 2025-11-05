@@ -15,3 +15,9 @@ def contact(request):
     return render(request, 'contact.html')
 def page_not_found404(request):
     return render(request, '404.html')
+
+def sign_up(request):
+    return render(request, 'sign-up.html')
+
+def sign_in(request):
+    return render(request, 'sign-in.html')
