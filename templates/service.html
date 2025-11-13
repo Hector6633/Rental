@@ -157,7 +157,7 @@
                                         <i class="fa fa-road text-dark"></i> <span class="text-body ms-1">27K</span>
                                     </div>
                                 </div>
-                                <a href="{% url "premium_car_reservation" %}" class="btn btn-primary rounded-pill d-flex justify-content-center py-3">Book Now</a>
+                                <a href="{% url "premium_car_rental" car.id %}" class="btn btn-primary rounded-pill d-flex justify-content-center py-3">Book Now</a>
                             </div>
                         </div>
                     </div>
@@ -179,7 +179,15 @@
                     <div class="col-lg-6 fadeInLeft animated" data-animation="fadeInLeft" data-delay="1s" style="animation-delay: 1s;">
                                         <div class="bg-secondary rounded p-5">
                                             <h4 class="text-white mb-4">CONTINUE CAR RESERVATION</h4>
-                                            <form>
+                                            {% if messages %}
+                                            {% for message in messages %}
+                                            <div class="alert alert-success" role="alert">
+                                                <h1{% if message.tags %} class="{{ message.tags }}" {% endif %}><strong>{{ message }}<strong><h1>
+                                            </div>
+                                            {% endfor %}
+                                            {% endif %}
+                                            <form method="post" action="{% url "service" %}" enctype="multipart/form-data">
+                                                {% csrf_token %}
                                                 <div class="row g-3">
                                                     <div class="col-12">
                                                         <div class="input-group">
@@ -208,19 +216,19 @@
                                                     <div class="col-12">
                                                         <select required name="purpose" class="form-select" aria-label="Default select example">
                                                             <option selected>Select Your Purpose</option>
-                                                            <option value="wedding">Wedding</option>
-                                                            <option value="taxi">Taxi</option>
-                                                            <option value="trip">Journey Trip</option>
-                                                            <option value="others">Others</option>
+                                                            <option name="purpose" value="wedding">Wedding</option>
+                                                            <option name="purpose" value="taxi">Taxi</option>
+                                                            <option name="purpose" value="trip">Journey Trip</option>
+                                                            <option name="purpose" value="others">Others</option>
                                                         </select>
                                                     </div>
                                                     <div class="col-12">
-                                                        <select name="carmodel" required class="form-select" aria-label="Default select example">
+                                                        <select name="car_model" required class="form-select" aria-label="Default select example">
                                                             <option selected>Select Your Car Model</option>
-                                                            <option value="1">VW Golf VII</option>
-                                                            <option value="2">Audi A1 S-Line</option>
-                                                            <option value="3">Toyota Camry</option>
-                                                            <option value="4">BMW 320 ModernLine</option>
+                                                            <option value="VW Golf VII">VW Golf VII</option>
+                                                            <option value="Audi A1 S-Line">Audi A1 S-Line</option>
+                                                            <option value="Toyota Camry">Toyota Camry</option>
+                                                            <option value="BMW 320 ModernLine">BMW 320 ModernLine</option>
                                                         </select>
                                                     </div>
                                                     <div class="col-12">
@@ -228,7 +236,7 @@
                                                             <div class="d-flex align-items-center bg-light text-body rounded-start p-2">
                                                                 <span class="fas fa-map-marker-alt"></span> <span class="ms-1">Pick Up</span>
                                                             </div>
-                                                            <input class="form-control" required name="pickup" type="text" placeholder="Enter your pick up location" aria-label="Enter your pick up location">
+                                                            <input class="form-control" required name="pickup_location" type="text" placeholder="Enter your pick up location" aria-label="Enter your pick up location">
                                                         </div>
                                                     </div>
                                                     <div class="col-12">
@@ -237,7 +245,7 @@
                                                             <div class="d-flex align-items-center bg-light text-body rounded-start p-2">
                                                                 <span class="fas fa-map-marker-alt"></span><span class="ms-1">Drop off</span>
                                                             </div>
-                                                            <input class="form-control" required name="dropoff" type="text" placeholder="Enter your drop off location" aria-label="Enter your drop off location">
+                                                            <input class="form-control" required name="dropoff_location" type="text" placeholder="Enter your drop off location" aria-label="Enter your drop off location">
                                                         </div>
                                                     </div>
                                                     <div class="col-12">
@@ -248,17 +256,17 @@
                                                             <input required name="pickup_date" class="form-control" type="date">
                                                             <select required name="pickup_time" class="form-select ms-3" aria-label="Default select example">
                                                                 <option selected>12:00AM</option>
-                                                                <option value="1:00AM">1:00AM</option>
-                                                                <option value="2:00AM">2:00AM</option>
-                                                                <option value="3:00AM">3:00AM</option>
-                                                                <option value="4:00AM">4:00AM</option>
-                                                                <option value="5:00AM">5:00AM</option>
-                                                                <option value="6:00AM">6:00AM</option>
-                                                                <option value="7:00AM">7:00AM</option>
-                                                                <option value="8:00AM">8:00AM</option>
-                                                                <option value="9:00AM">9:00AM</option>
-                                                                <option value="10:00AM">10:00AM</option>
-                                                                <option value="11:00AM">11:00AM</option>
+                                                                <option name="pickup_time" value="1:00AM">1:00AM</option>
+                                                                <option name="pickup_time" value="2:00AM">2:00AM</option>
+                                                                <option name="pickup_time" value="3:00AM">3:00AM</option>
+                                                                <option name="pickup_time" value="4:00AM">4:00AM</option>
+                                                                <option name="pickup_time" value="5:00AM">5:00AM</option>
+                                                                <option name="pickup_time" value="6:00AM">6:00AM</option>
+                                                                <option name="pickup_time" value="7:00AM">7:00AM</option>
+                                                                <option name="pickup_time" value="8:00AM">8:00AM</option>
+                                                                <option name="pickup_time" value="9:00AM">9:00AM</option>
+                                                                <option name="pickup_time" value="10:00AM">10:00AM</option>
+                                                                <option name="pickup_time" value="11:00AM">11:00AM</option>
                                                             </select>
                                                         </div>
                                                     </div>
@@ -270,17 +278,17 @@
                                                             <input required name="dropoff_date" class="form-control" type="date">
                                                             <select required name="dropoff_time" class="form-select ms-3" aria-label="Default select example">
                                                                 <option selected>12:00AM</option>
-                                                                <option value="1:00AM">1:00AM</option>
-                                                                <option value="2:00AM">2:00AM</option>
-                                                                <option value="3:00AM">3:00AM</option>
-                                                                <option value="4:00AM">4:00AM</option>
-                                                                <option value="5:00AM">5:00AM</option>
-                                                                <option value="6:00AM">6:00AM</option>
-                                                                <option value="7:00AM">7:00AM</option>
-                                                                <option value="8:00AM">8:00AM</option>
-                                                                <option value="9:00AM">9:00AM</option>
-                                                                <option value="10:00AM">10:00AM</option>
-                                                                <option value="11:00AM">11:00AM</option>
+                                                                <option name="dropoff_time" value="1:00AM">1:00AM</option>
+                                                                <option name="dropoff_time" value="2:00AM">2:00AM</option>
+                                                                <option name="dropoff_time" value="3:00AM">3:00AM</option>
+                                                                <option name="dropoff_time" value="4:00AM">4:00AM</option>
+                                                                <option name="dropoff_time" value="5:00AM">5:00AM</option>
+                                                                <option name="dropoff_time" value="6:00AM">6:00AM</option>
+                                                                <option name="dropoff_time" value="7:00AM">7:00AM</option>
+                                                                <option name="dropoff_time" value="8:00AM">8:00AM</option>
+                                                                <option name="dropoff_time" value="9:00AM">9:00AM</option>
+                                                                <option name="dropoff_time" value="10:00AM">10:00AM</option>
+                                                                <option name="dropoff_time" value="11:00AM">11:00AM</option>
                                                             </select>
                                                         </div>
                                                     </div>
