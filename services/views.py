@@ -1,8 +1,9 @@
 from django.shortcuts import render, redirect
 from . models import *
 from django.contrib import messages
-# Create your views here.
+from django.contrib.auth.decorators import login_required
 
+@login_required(login_url='sign_in')
 def service(request):
     premium_model = {
         'cars': Premium_Car_Model.objects.all()
@@ -32,12 +33,14 @@ def service(request):
             return redirect('service')
     return render(request, 'service.html', premium_model)
 
+@login_required(login_url='sign_in')
 def premium_car_rental(request, pk):
     car_model = {
         'model': Premium_Car_Model.objects.get(pk=pk)
     }
     return render(request, 'premium-rental.html', car_model)
 
+@login_required(login_url='sign_in')
 def premium_car_reservation(request):
     if request.method == 'POST':
         try:

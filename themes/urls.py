@@ -7,6 +7,4 @@ urlpatterns = [
     path('blog/', blog, name='blog'),
     path('contact/', contact, name='contact'),
     path('page_not_found404/', page_not_found404, name='page_not_found404'),
-    path('sign-up/', sign_up, name='sign_up'),
-    path('sign-in/', sign_in, name='sign_in'),
 ]

@@ -86,13 +86,19 @@
                             <div class="nav-item dropdown">
                                 <a href="#" class="nav-link dropdown-toggle active" data-bs-toggle="dropdown">Account</a>
                                 <div class="dropdown-menu m-0">
-                                    <a href="feature.html" class="dropdown-item">Sign In</a>
-                                    <a href="#" class="dropdown-item">Sign Up</a>
-                                    <a href="team.html" class="dropdown-item">Sign Out</a>
+                                    <a href="{% url "sign_in" %}" class="dropdown-item">Sign In</a>
+                                    <a href="{% url "sign_up" %}" class="dropdown-item">Sign Up</a>
+                                    {% if user.is_authenticated %}
+                                    <a href="{% url "sign_out" %}" class="dropdown-item">Sign Out</a>
+                                    {% endif %}
                                 </div>
                             </div>
                         </div>
-                        <a href="#" class="btn btn-primary rounded-pill py-2 px-4">Get Started</a>
+                        {% if user.is_authenticated %}
+                        <a href="#" class="btn btn-primary rounded-pill py-2 px-4">Hello, {{user.username}}</a>
+                        {% else %}
+                        <a href="#" class="btn btn-primary rounded-pill py-2 px-4">Hello, Rental</a>
+                        {% endif %}
                     </div>
                 </nav>
             </div>
@@ -117,11 +123,19 @@
                     <div class="col-xl-6 wow fadeInUp" data-wow-delay="0.1s">
                         <div class="bg-secondary p-5 rounded">
                             <h4 class="text-primary mb-4">Account Login Here..</h4>
-                            <form>
+                            {% if messages %}
+                            {% for message in messages %}
+                            <div class="alert alert-success" role="alert">
+                                <h1{% if message.tags %} class="{{ message.tags }}" {% endif %}><strong>{{ message }}<strong><h1>
+                            </div>
+                            {% endfor %}
+                            {% endif %}
+                            <form method="post" action="{% url "sign_in" %}" enctype="multipart/form-data">
+                                {% csrf_token %}
                                 <div class="row g-4">
                                     <div class="col-lg-12">
                                         <div class="form-floating">
-                                            <input type="name" name="name" required class="form-control" id="name" placeholder="Your Name">
+                                            <input type="name" name="username" required class="form-control" id="name" placeholder="Your Name">
                                             <label for="name">Your Username</label>
                                         </div>
                                     </div>
