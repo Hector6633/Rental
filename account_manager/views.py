@@ -4,6 +4,8 @@ from django.contrib.auth import authenticate, login, logout
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from . decorators import unauthenticated_user
+from django.core.mail import send_mail
+from django.conf import settings
 @unauthenticated_user
 def sign_up(request):
     if request.method == 'POST':
@@ -13,6 +15,16 @@ def sign_up(request):
             password = request.POST['password']
             new_account = User.objects.create_user(username=username, email=email, password=password)
             new_account.save()
+            subject = "Rental Account Manager"
+            message = f"Dear {username},\nYou are successfully created your account with Rental.\nPlease keep this email for your records and do not forward or share any other person.\nTo get started, please visit our website at https://www.rental.pythonanywhere.com/ and use our services.\nFor more details login with Rental.\n\nBest Regards,\nRental Team."
+            recipient = email
+            send_mail(
+                subject,
+                message,
+                settings.EMAIL_HOST_USER,
+                [recipient],
+                fail_silently=True,
+            )
             success_msg = 'User Created'
             messages.success(request, success_msg)
             return redirect('sign_in')
@@ -27,9 +39,9 @@ def sign_in(request):
     if request.method == 'POST':
         username = request.POST['username']
         password = request.POST['password']
-        user_data = authenticate(username=username, password=password)
-        if user_data is not None:
-            login(request, user_data)
+        user_auth = authenticate(username=username, password=password)
+        if user_auth is not None:
+            login(request, user_auth)
             return redirect('index')
         else:
             error_msg = 'Invalid User'
