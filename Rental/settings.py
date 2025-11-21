@@ -37,6 +37,8 @@ ALLOWED_HOSTS = []
 # Application definition
 
 INSTALLED_APPS = [
+    'jet',
+    'jet.dashboard',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -47,6 +49,8 @@ INSTALLED_APPS = [
     'themes',
     'services',
     'account_manager',
+    'easyaudit',
+    'auditlog',
 ]
 
 MIDDLEWARE = [
@@ -58,7 +62,16 @@ MIDDLEWARE = [
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
     'livereload.middleware.LiveReloadScript',
+    'easyaudit.middleware.easyaudit.EasyAuditMiddleware',
+    'auditlog.middleware.AuditlogMiddleware',
 ]
+
+# For django easy audit
+DJANGO_EASY_AUDIT_WATCH_MODEL_EVENTS = False
+
+DJANGO_EASY_AUDIT_WATCH_AUTH_EVENTS = False
+
+DJANGO_EASY_AUDIT_WATCH_REQUEST_EVENTS = False
 
 ROOT_URLCONF = 'Rental.urls'
 
